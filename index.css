@@ -1,0 +1,12 @@
+#dice-para {
+    font-size: 40px;
+}
+
+#error{
+    color: red;
+}
+
+.results{
+    border: 2px solid black;
+    margin-bottom: 10px;
+}

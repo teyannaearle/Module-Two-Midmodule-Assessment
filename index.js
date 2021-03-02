@@ -1,3 +1,17 @@
+// SMART Goal: Within 20 minutes, I want to insert a label and a form in my first div 
+//             in my HTML file and verify that all of my code still works. If it doesn't, 
+//             refactor so that it does. 
+
+// SMART Goal: Within 5 minutes, I will change my object name in my code to something more clear.
+
+// SMART Goal: Within 30 minutes, I will add to my JS so that the user can see the average, min and  
+//             max sum.
+
+// STRETCH GOAL: I will brainstorm how I can handle ivalid input first so that I can return 
+//          from the click handler early instead of placing most of my core logic in 
+//          an if statement.
+
+
 document.addEventListener("DOMContentLoaded" , diceRoller)
 
 function diceRoller(){
@@ -10,15 +24,26 @@ function diceRoller(){
         5: '&#9860' , 
         6: '&#9861'  
       }
-    const object = {}
+    const rollHistory = {}
     const button = document.getElementById("button")
     const error = document.getElementById("error") 
+    const list = document.querySelector("ul")
+
     let diceDisplay = document.getElementById("dice-para")
     let sum = document.getElementById("sum-para")
-    const list = document.querySelector("ul")
+    
+
+    let average = document.getElementById("avg")
+    let minimum = document.getElementById("min")
+    let maximum = document.getElementById("max")
+    
+    let minAmount = Infinity
+    let maxAmount = -Infinity
+    let sumAll = 0
     let count = 0
 
-    button.addEventListener("click" , () => {
+    button.addEventListener("click" , (event) => {
+        event.preventDefault()
         const inp = document.getElementById("input").value
         const input = Number(inp)
         
@@ -35,24 +60,38 @@ function diceRoller(){
             }
 
             count += 1
+            sumAll += sumAmount
             sum.innerText = `Sum = ${sumAmount}`
-            object[count] = `${diceDisplay.innerHTML} = ${sumAmount}`
-            console.log(object)
+            
+            rollHistory[count] = `${diceDisplay.innerHTML} = ${sumAmount}`
+
+            sumAmount < minAmount ? minAmount = sumAmount : minAmount = minAmount
+            sumAmount > maxAmount ? maxAmount = sumAmount : maxAmount = maxAmount
+
+            average.textContent = `Average Sum = ${sumAll / count}`
+            minimum.textContent = `Minimum Sum = ${minAmount}`
+            maximum.textContent = `Maximum Sum = ${maxAmount}`
+        
           
 
             if (count >= 2) {
                 let newListItem = document.createElement("li")
-                newListItem.textContent = object[count - 1]
+                newListItem.textContent = rollHistory[count - 1]
                 list.appendChild(newListItem)
+
             }
 
         } else {
            error.textContent = "Please enter a number greater than 0"
         }
+
+
+        
+
     })
 
 
-
+   
 
 
 
